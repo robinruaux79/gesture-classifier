@@ -61,6 +61,9 @@ public class MouseGestureRecognizer {
     private NeuralNetwork neuralNetwork;
 
     public MouseGestureRecognizer(){
+    }
+
+    public void resetModel(){
         neuralNetwork = new NeuralNetwork(56, 8, ShortcutEnum.values().length);
     }
 
@@ -70,10 +73,13 @@ public class MouseGestureRecognizer {
 
     public void applyMovementModel(List<MouseGesture> gestures){
 
-        System.out.println("Apply movement model");
+        System.out.println("Initializing model...");
+        resetModel();
+        System.out.println("Done.");
+        System.out.println("Applying movement model...");
 
 
-        System.out.println("Creating data from gestures list (" + gestures.size() + ")");
+        System.out.println("Creating data from gestures list... (" + gestures.size() + ")");
         double[][] data = new double[gestures.size()][gestures.get(0).positions.size()*2];
         double[][] answer = new double[gestures.size()][ShortcutEnum.values().length];
 

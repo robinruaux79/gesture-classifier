@@ -102,6 +102,17 @@ $(document).ready(function (){
     $('#formDetectGesture').submit(function (){
         detectGesture();
         return false;
+    });
+
+    $('#saveModelButton').click(function(){
+        fetch('/api/applyModel', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(d => {
+            console.log("Neural network updated.")
+        });
     })
 
     function getOffset(el) {
