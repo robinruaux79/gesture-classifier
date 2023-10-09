@@ -1,11 +1,14 @@
 package fr.anonympins.gestures.model;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class MouseGestureRecognizer {
@@ -24,47 +27,18 @@ public class MouseGestureRecognizer {
         public String shortcut = "UNKNOW";
     }
 
-    public enum ShortcutEnum {
-        SHORTCUT_ECLAIR,
-        SHORTCUT_MARCHE,
-
-        SHORTCUT_TABLE,
-        SHORTCUT_BALL,
-
-        EMPTY;
-
-    };
-
-    public static ShortcutEnum getShortcutByProb(Double prob){
-        for(ShortcutEnum e : ShortcutEnum.values()) {
-            if( ((float)e.ordinal()+0.5/ShortcutEnum.values().length) > prob ){
-                return e;
-            }
-        }
-        return ShortcutEnum.EMPTY;
-    }
-
-    public static ShortcutEnum getShortcutByOrdinal(Integer ordinal) {
-        for(ShortcutEnum e : ShortcutEnum.values()) {
-            if(e.ordinal() == ordinal) return e;
-        }
-        return ShortcutEnum.EMPTY;
-    }
-
-    public static ShortcutEnum getShortcutByName(String name) {
-        for(ShortcutEnum e : ShortcutEnum.values()) {
-            if(e.name().equals(name)) return e;
-        }
-        return ShortcutEnum.EMPTY;
-    }
-
     private NeuralNetwork neuralNetwork;
 
-    public MouseGestureRecognizer(){
+    @Getter
+    private List<String> classes;
+
+    public MouseGestureRecognizer(List<String> classes){
+        this.classes = classes;
+        resetModel();
     }
 
     public void resetModel(){
-        neuralNetwork = new NeuralNetwork(56, 8, ShortcutEnum.values().length);
+        neuralNetwork = new NeuralNetwork(56, 37, classes.size());
     }
 
     public void setModel(NeuralNetwork network){
@@ -81,7 +55,7 @@ public class MouseGestureRecognizer {
 
         System.out.println("Creating data from gestures list... (" + gestures.size() + ")");
         double[][] data = new double[gestures.size()][gestures.get(0).positions.size()*2];
-        double[][] answer = new double[gestures.size()][ShortcutEnum.values().length];
+        double[][] answer = new double[gestures.size()][classes.size()];
 
         for(int g = 0; g < gestures.size(); ++g) {
             MouseGesture gesture = gestures.get(g);
@@ -91,8 +65,9 @@ public class MouseGestureRecognizer {
             }
 
             List<Double> answers = new ArrayList<>();
-            for (ShortcutEnum v : ShortcutEnum.values()) {
-                if (v == getShortcutByName(gesture.shortcut)) {
+            for(String c : classes){
+//            for (ShortcutEnum v : ShortcutEnum.values()) {
+                if (c.equals(gesture.shortcut)) {
                     answers.add(1d);
                 } else {
                     answers.add(0d);
@@ -108,7 +83,7 @@ public class MouseGestureRecognizer {
         System.out.println("Done.");
     }
 
-    public ShortcutEnum detectGesture(MouseGesture gesture) {
+    public String detectGesture(MouseGesture gesture) {
 
         System.out.println("Detecting gesture...");
         System.out.println("Loading data...");
@@ -121,18 +96,17 @@ public class MouseGestureRecognizer {
 
         System.out.println("Predicting data...");
         List<Double> prediction = neuralNetwork.predict(data);
-        ShortcutEnum finalShortcut = ShortcutEnum.EMPTY;
+        String finalShortcut = "";
         double bestProb = 0;
         int i = 0;
+        String[] c = classes.toArray(new String[classes.size()]);
         for(Double p : prediction){
-            var shortcut = getShortcutByOrdinal(i);
-            if( shortcut == ShortcutEnum.EMPTY)
-                continue;
+            var shortcut = c[i];
             if( p > bestProb ){
                 finalShortcut = shortcut;
                 bestProb = p;
             }
-            System.out.println("Prediction " + p + " for " + shortcut.name());
+            System.out.println("Prediction " + p + " for " + shortcut);
             ++i;
         }
         System.out.println("Done.");

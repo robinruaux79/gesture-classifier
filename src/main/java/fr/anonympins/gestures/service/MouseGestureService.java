@@ -14,6 +14,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,11 +30,23 @@ public class MouseGestureService {
     ObjectMapper mapper = new ObjectMapper();
 
     MouseGestureService() throws JsonProcessingException {
-        this.recognizer = new MouseGestureRecognizer();
+        this.recognizer = new MouseGestureRecognizer(List.of(
+                "BALL",
+                "PYRAMID",
+                "STAR",
+                "LINE",
+                "FLASH",
+                "SLASH",
+                "TABLE",
+                "CONTAINER",
+                "NO_MOVE"));
         loadTrainingData();
         loadModel();
     }
 
+    public List<String> getClasses(){
+        return this.recognizer.getClasses();
+    }
 
     public void loadTrainingData() throws JsonProcessingException {
         String text = getTextFromFile(DATA_TRAINING_PATH);
@@ -57,12 +70,12 @@ public class MouseGestureService {
     }
 
     public Mono<Void> sendMouseGesture(MouseGestureRecognizer.MouseGesture gesture){
-        var trainedGesture = TrainedGesture.builder().gesture(gesture).shortcut(MouseGestureRecognizer.ShortcutEnum.valueOf(gesture.shortcut)).build();
+        var trainedGesture = TrainedGesture.builder().gesture(gesture).shortcut(gesture.shortcut).build();
         trainedGestures.add(trainedGesture);
         return Mono.empty();
     }
 
-    public Mono<MouseGestureRecognizer.ShortcutEnum> detectGesture(MouseGestureRecognizer.MouseGesture gesture){
+    public Mono<String> detectGesture(MouseGestureRecognizer.MouseGesture gesture){
         return Mono.just(recognizer.detectGesture(gesture));
     }
 
