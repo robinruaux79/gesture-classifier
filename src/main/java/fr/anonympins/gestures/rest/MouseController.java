@@ -1,4 +1,4 @@
-package fr.anonympins.gestures.repo;
+package fr.anonympins.gestures.rest;
 
 import fr.anonympins.gestures.model.MouseGestureRecognizer;
 import fr.anonympins.gestures.service.MouseGestureService;

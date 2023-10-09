@@ -1,4 +1,4 @@
-package fr.anonympins.gestures.repo;
+package fr.anonympins.gestures.rest;
 
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Controller;

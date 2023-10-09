@@ -1,4 +1,4 @@
-package fr.anonympins.gestures.repo;
+package fr.anonympins.gestures.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
