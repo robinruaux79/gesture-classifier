@@ -46,7 +46,7 @@ const startGesture = () => {
             },
             body: JSON.stringify({
                 positions: normalizePos(gestures),
-                shortcut: $('#formGesture input[name="shortcut"]').val()
+                shortcut: $('#formGesture [name="shortcut"]').val()
             })
         }).then(e => {
             e.json().then(json => console.log(json));

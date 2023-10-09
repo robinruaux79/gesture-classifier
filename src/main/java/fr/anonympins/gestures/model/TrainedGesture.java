@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TrainedGesture {
     MouseGestureRecognizer.MouseGesture gesture;
-    MouseGestureRecognizer.ShortcutEnum shortcut;
+    String shortcut;
 }

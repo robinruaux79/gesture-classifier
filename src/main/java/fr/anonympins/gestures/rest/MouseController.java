@@ -28,7 +28,7 @@ public class MouseController {
     }
 
     @PostMapping("/api/detect")
-    public Mono<MouseGestureRecognizer.ShortcutEnum> detectGesture(
+    public Mono<String> detectGesture(
             @RequestBody MouseGestureRecognizer.MouseGesture gesture){
         return mouseGestureService.detectGesture(gesture);
     }

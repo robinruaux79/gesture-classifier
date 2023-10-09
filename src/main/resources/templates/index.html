@@ -6,7 +6,9 @@
 
     <body>
         <form id="formGesture">
-            <input type="text" name="shortcut" value="SHORTCUT_BALL" />
+            <select name="shortcut">
+                <option th:each="class : ${classes}" th:value="${class}" th:text="${class}"></option>
+            </select>
             <button type="submit">Register gesture</button>
             <button type="button" id="saveModelButton">Save model</button>
         </form>
