@@ -23,11 +23,16 @@ public class MatrixDeserializer extends StdDeserializer<Matrix> {
         double[][] finalData = new double[rows][cols];
         var arr = node.withArray("data");
         var els = arr.elements();
-        int c = 0;
+        int row = 0, col = 0;
         while (els.hasNext()) {
-            var d = els.next().asDouble();
-            finalData[c/rows][c%cols] = d;
-            ++c;
+            var d = els.next();
+            var cels = d.elements();
+            col = 0;
+            while(cels.hasNext()) {
+                finalData[row][col] = cels.next().asDouble();
+                ++col;
+            }
+            row++;
         }
 
         Matrix m = new Matrix(rows, cols);
