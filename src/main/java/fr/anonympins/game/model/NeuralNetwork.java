@@ -20,7 +20,7 @@ public class NeuralNetwork {
     @JsonDeserialize(using = MatrixDeserializer.class)
     Matrix weights_ih , weights_ho , bias_h , bias_o;
     @JsonProperty
-    double l_rate=0.01;
+    double l_rate=0.08;
     public NeuralNetwork(int i,int h,int o) {
         weights_ih = new Matrix(h,i);
         weights_ho = new Matrix(o,h);
