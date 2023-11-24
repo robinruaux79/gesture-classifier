@@ -1,6 +1,13 @@
-package fr.anonympins.gestures.config;
+package fr.anonympins.game.config;
 
 
+import fr.anonympins.game.model.WebSocketServer;
+import fr.anonympins.game.model.entity.Game;
+import fr.anonympins.game.service.GameService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -9,7 +16,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.orm.jpa.SharedEntityManagerCreator;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.reactive.config.ViewResolverRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
@@ -18,6 +27,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
+import org.springframework.web.reactive.socket.WebSocketHandler;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.spring6.ISpringWebFluxTemplateEngine;
 import org.thymeleaf.spring6.SpringWebFluxTemplateEngine;
@@ -26,12 +37,18 @@ import org.thymeleaf.spring6.view.reactive.ThymeleafReactiveViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import reactor.netty.http.client.HttpClient;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Configuration
-@ComponentScan(basePackages = {"fr.anonympins.gestures"})
+@ComponentScan(basePackages = {"fr.anonympins.game"})
 @EntityScan(basePackages = {"fr.anonympins.gestures"})
 @EnableWebFlux
 @EnableScheduling
 class ApplicationConfig implements ApplicationContextAware, WebFluxConfigurer {
+
+    @Autowired
+    WebSocketServer webSocketServer;
 
     private ApplicationContext ctx;
 
@@ -103,5 +120,16 @@ class ApplicationConfig implements ApplicationContextAware, WebFluxConfigurer {
                 .build();
     }
 
+    @Bean
+    public HandlerMapping handlerMapping() {
+        Map<String, WebSocketHandler> map = new HashMap<>();
+        map.put("/ws", webSocketServer);
+        int order = -1; // before annotated controllers
+        return new SimpleUrlHandlerMapping(map, order);
+    }
 
+    @Bean
+    public static EntityManager sharedEntityManager(EntityManagerFactory emf) {
+        return SharedEntityManagerCreator.createSharedEntityManager(emf);
+    }
 }

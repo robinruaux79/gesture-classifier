@@ -1,13 +1,9 @@
-package fr.anonympins.game.model;
+package fr.anonympins.game.model.entity;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,21 +12,24 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString(of = {"id", "username"})
 public class Account {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
+    private String hash;
+
     private String username;
 
     @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true)
     private List<AccountProvider> accountProviders = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     private List<Role> roles = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     private List<Notification> notifications = new ArrayList<>();
 
     public Boolean isAuthenticated(String user, String password){
@@ -60,5 +59,6 @@ public class Account {
         }
         return false;
     }
+
 
 }

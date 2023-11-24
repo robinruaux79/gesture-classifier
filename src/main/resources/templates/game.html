@@ -4,6 +4,32 @@
         <link th:href="@{/css/ici.css}" rel="stylesheet" />
     </head>
     <body>
+        <div class="notification-stack">
+            <div class="notification" th:each="notif: ${notifications}">
+                <div class="notification-bg" th:style="|background-image: url('${notif.backgroundUrl}');|"></div>
+                <span class="tags">
+                    <span th:text="${notif.canal}"></span>
+                </span>
+                <h3 th:text="${notif.title}"></h3>
+                <p th:text="${notif.sentAt}"></p>
+                <p th:text="${notif.message}"></p>
+            </div>
+        </div>
+
+        <div id="game">
+            <form method="POST" id="requester">
+                <div contenteditable="true" id="request">
+                    créer un objet avec :
+                        name=Gourde
+                        basePrice=12
+                </div>
+                <input type="submit" name="btnOk" value="OK" />
+            </form>
+        </div>
+
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/20.0.0/tween.umd.js"></script>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <script type="text/javascript" th:src="@{/js/ici.js}"></script>
     </body>

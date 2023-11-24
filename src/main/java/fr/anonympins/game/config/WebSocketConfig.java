@@ -1,2 +1,4 @@
-package fr.anonympins.game.config;public class WebSocketConfig {
+package fr.anonympins.game.config;
+
+public class WebSocketConfig {
 }

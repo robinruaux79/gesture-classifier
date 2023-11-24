@@ -1,24 +1,36 @@
 import puppeteer from 'puppeteer';
+import fs from "fs";
 
 (async () => {
+
+    const words = fs.readFileSync('data/words.txt').toString("UTF-8").split("\r\n");
+    console.log(words);
+
     const browser = await puppeteer.launch({headless:false});
-    const page = await browser.newPage();
-    await page.setViewport({width: 1366, height: 768})
-    await page.goto('https://chat.europnet.org/?nick=robinouu&age=&sexe=F&ville=Fontenay-aux-Roses&channel=accueil%2Cparis&userid=&origine=9&chatnow=1');
 
-    /*
-//check that the first page opened this new page:
-    const newTarget = await browser.waitForTarget(target => target.opener() === pageTarget);
-//get the new page object:
-    const newPage = await newTarget.page();
-*/
-        await page.waitForTimeout(60*60*1000);
+    for(var i = 0; i < words.length; ++i) {
+        const page = await browser.newPage();
+        await page.setViewport({width: 1366, height: 768});
+        await page.goto('https://www.larousse.fr/');
 
-        const texts = await page.$$('.kiwi-messagelist-message-privmsg');
-        for(var i = 0; i < texts.length; ++i){
-            const text = await (await texts[i].getProperty('textContent')).jsonValue();
-            console.log(text)
+        try {
+            await page.waitForSelector("#onetrust-accept-btn-handler", {timeout: 5000});
+            await page.evaluate(() => {
+                document.querySelector('#onetrust-accept-btn-handler').click();
+            });
+        } catch (e){
+
         }
+
+        // do search
+        await page.$$('.lar-searchtxt');
+        await page.type('.lar-searchtxt', words[i]);
+        await page.click(".lar-searchbt");
+
+
+        // terminate session
+        await page.close();
+    }
     // other actions...
     await browser.close();
 })();

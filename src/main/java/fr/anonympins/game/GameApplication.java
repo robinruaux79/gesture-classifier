@@ -1,8 +1,10 @@
-package fr.anonympins.gestures;
+package fr.anonympins.game;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+@EntityScan("fr.anonympins.game")
 @SpringBootApplication
 public class GameApplication {
 

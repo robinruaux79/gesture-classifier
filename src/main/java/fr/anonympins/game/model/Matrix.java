@@ -1,4 +1,4 @@
-package fr.anonympins.gestures.model;
+package fr.anonympins.game.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Matrix
         this.cols = cols;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                data[i][j] = Math.random() * 2 - 1;
+                data[i][j] = 0;//Math.random() * 2 - 1;
             }
         }
     }

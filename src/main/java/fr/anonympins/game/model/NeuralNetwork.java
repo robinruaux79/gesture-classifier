@@ -1,7 +1,7 @@
 /***
  * Source code is here: https://towardsdatascience.com/understanding-and-implementing-neural-networks-in-java-from-scratch-61421bb6352c
  */
-package fr.anonympins.gestures.model;
+package fr.anonympins.game.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

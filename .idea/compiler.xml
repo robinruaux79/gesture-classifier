@@ -7,13 +7,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="gestures" />
+        <module name="ici-sorties" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="gestures" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="gestures" options="-parameters" />
+      <module name="ici-sorties" options="-parameters" />
     </option>
   </component>
 </project>

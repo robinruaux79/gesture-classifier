@@ -4,7 +4,10 @@
         <link th:href="@{/css/ici.css}" rel="stylesheet" />
     </head>
     <body>
-    <h1>An error occured !</h1>
-    <h3 th:text="${msg}"></h3>
+        <form method="GET">
+            <input type="text" name="request" value="" placeholder="Entrez du texte..." />
+            <input type="submit" name="btnSend" value="OK" />
+        </form>
+        <h3 th:text="${msg}"></h3>
     </body>
 </html>

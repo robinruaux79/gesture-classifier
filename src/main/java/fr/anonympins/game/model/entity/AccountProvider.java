@@ -1,16 +1,14 @@
-package fr.anonympins.game.model;
+package fr.anonympins.game.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString(of = {"id", "provider"})
 public class AccountProvider {
 
     @Id

@@ -1,10 +1,7 @@
-package fr.anonympins.game.model;
+package fr.anonympins.game.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,13 +11,14 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(of = {"id", "seed", "players", "gameObjects"})
 public class Game {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    private String seed;
+    private String seed, name;
 
     private Integer minPlayers;
 

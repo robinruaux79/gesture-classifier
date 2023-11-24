@@ -3,33 +3,14 @@
     <head>
         <link th:href="@{/css/ici.css}" rel="stylesheet" />
     </head>
-
     <body>
-        <form id="formGesture">
-            <select name="shortcut">
-                <option th:each="class : ${classes}" th:value="${class}" th:text="${class}"></option>
-            </select>
-            <button type="submit">Register gesture</button>
-            <button type="button" id="saveModelButton">Save model</button>
+        <form method="POST" action="/connect">
+            <h2>Connect</h2>
+            <input type="text" name="username" placeholder="Username" />
+            <input type="password" name="password" placeholder="Password" />
+            <input type="submit" name="btnConnect" value="Connect" />
         </form>
-        <form id="formDetectGesture">
-            <button type="submit">Detect gesture</button>
-        </form>
-
-        <canvas id="canvas" width="150" height="150">
-
-        </canvas>
-
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <script type="text/javascript" th:src="@{/js/ici.js}"></script>
-        <script>
-
-/*            const evtSource = new EventSource("/admin/events/new", {
-                withCredentials: true,
-            });
-            evtSource.onmessage = function (event) {
-                console.log("EVENT", event);
-            };*/
-        </script>
     </body>
 </html>

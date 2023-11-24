@@ -1,5 +1,5 @@
 
-.overall {
+.overall, notification-bg {
     position: absolute;
     top: 0;
     left: 0;
@@ -9,4 +9,11 @@
 }
 .event {
     position: relative;
+}
+
+.notification {
+    position: relative;
+}
+.notification-bg {
+
 }

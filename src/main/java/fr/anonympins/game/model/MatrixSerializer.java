@@ -1,4 +1,4 @@
-package fr.anonympins.gestures.model;
+package fr.anonympins.game.model;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;

@@ -1,35 +1,39 @@
-package fr.anonympins.game.model;
+package fr.anonympins.game.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.reflections.Reflections;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(of = {"id", "name"})
 public class GameObject {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-    private GameObjectType type;
-
     private String name;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     private Location location;
-
-    private Double weight = 0.250;
-
-    private Double basePrice = 1.0;
 
     String getDescription(){
         return name;
+    }
+
+    public Double getDoubleClass(){
+        Reflections reflections = new Reflections(this.getClass().getPackage().getName() + ".command.defaults");
+        Set<Class<? extends GameObject>> classes = reflections.getSubTypesOf(GameObject.class);
+        // Iterate through all the detected/found classes
+        return (double) new ArrayList<>(classes).indexOf(this.getClass());
     }
 }

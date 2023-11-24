@@ -1,9 +1,6 @@
-package fr.anonympins.game.model;
+package fr.anonympins.game.model.entity;
 
 import lombok.Data;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Data
 public class Subject {

@@ -1,19 +1,17 @@
-package fr.anonympins.game.model;
+package fr.anonympins.game.model.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(of = {"id", "name"})
 public class Authority {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

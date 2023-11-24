@@ -1,4 +1,4 @@
-package fr.anonympins.game.model;
+package fr.anonympins.game.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = {"canal", "title", "message"})
+@ToString(of = {"id", "canal", "title", "message", "sender"})
 public class Notification {
 
     @Id

@@ -1,4 +1,4 @@
-package fr.anonympins.gestures.config;
+package fr.anonympins.game.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
